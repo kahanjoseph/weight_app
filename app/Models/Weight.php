@@ -14,17 +14,8 @@ class Weight extends Model
 
     // Specify the fields that can be mass-assigned
     protected $fillable = [
-        'user_id',
-        'weight',
-        'date',
-        'remarks',
+        'choices',
+        'stack',
+        'complete',
     ];
-
-    /**
-     * The user that the weight entry belongs to.
-     */
-    public function user()
-    {
-        return $this->belongsTo(User::class);
-    }
 }
