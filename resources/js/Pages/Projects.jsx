@@ -5,12 +5,11 @@ import {Table, TableBody, TableCell, TableHead, TableHeader, TableRow} from "@/C
 import { CheckIcon, XMarkIcon } from '@heroicons/react/24/solid'
 import Pagination from "@/Components/Pagination.jsx";
 import {Button} from "@/Components/catalyst/button.jsx";
-import {Dialog, DialogDescription, DialogBody, DialogTitle, DialogActions} from "@/Components/catalyst/dialog.jsx";
-import { Input } from '@/components/catalyst/input.jsx'
-import { Field, Label } from '@/components/catalyst/fieldset.jsx';
+import Dialog from "@/Components/Dialog.jsx";
 
 export default function Dashboard({projects}) {
-    let [isOpen, setIsOpen] = useState(false)
+    let [isOpen, setIsOpen] = useState(false);
+    const [edit, setEdit] = useState(projects.data[0])
     const [values, setValues] = useState({
         user_id: "1",
         weight: 189,
@@ -26,26 +25,9 @@ export default function Dashboard({projects}) {
                 </h2>
             }
         >
-            {/*<Dialog open={isOpen} onClose={setIsOpen}>*/}
-            {/*    <DialogTitle>Refund payment</DialogTitle>*/}
-            {/*    <DialogDescription>*/}
-            {/*        The refund will be reflected in the customer’s bank account 2 to 3 business days after processing.*/}
-            {/*    </DialogDescription>*/}
-            {/*    <DialogBody>*/}
-            {/*        <Field>*/}
-            {/*            <Label>Amount</Label>*/}
-            {/*            <Input name="amount" placeholder="$0.00" />*/}
-            {/*        </Field>*/}
-            {/*    </DialogBody>*/}
-            {/*    <DialogActions>*/}
-            {/*        <Button plain onClick={() => setIsOpen(false)}>*/}
-            {/*            Cancel*/}
-            {/*        </Button>*/}
-            {/*        <Button onClick={() => setIsOpen(false)}>Refund</Button>*/}
-            {/*    </DialogActions>*/}
-            {/*</Dialog>*/}
+            <Dialog isOpen={isOpen} setIsOpen={setIsOpen} project={edit}/>
             <Head title="Dashboard"/>
-            <div className="mx-auto max-w-7xl sm:px-6 lg:px-8">
+            <div className="mx-auto max-w-7xl sm:px-6 lg:px-8 pt-5">
                 <Table>
                     <TableHead>
                         <TableRow>
@@ -64,15 +46,18 @@ export default function Dashboard({projects}) {
                                 <TableCell>{project.stack}</TableCell>
                                 <TableCell>{project?.date}</TableCell>
                                 <TableCell>{project?.url}</TableCell>
-                                {/*<TableCell>{project.complete ? <CheckIcon className='size-6'/> : <XMarkIcon className='size-6'/>}</TableCell>*/}
-                                {/*<Button type="button" onClick={() => setIsOpen(true)}>*/}
-                                {/*    Refund payment*/}
-                                {/*</Button>*/}
+                                <TableCell>{project.complete ? <CheckIcon className='size-6 text-green-500'/> : <XMarkIcon className='size-6 text-red-500'/>}</TableCell>
+                                <TableCell><Button className='cursor-pointer' type="button" onClick={() => {
+                                    setIsOpen(true)
+                                    setEdit(projects.data.find(item => item.id === project.id))
+                                }}>
+                                    Edit
+                                </Button></TableCell>
                             </TableRow>
                         ))}
                     </TableBody>
                 </Table>
-                {/*<Pagination current_page={projects?.current_page} total_pages={projects.total / projects.per_page} href='/projects'/>*/}
+                <Pagination current_page={projects?.current_page ?? 1} total_pages={(projects.total / projects.per_page)} href={'/projects'}/>
             </div>
             <pre>{JSON.stringify(projects, null ,2)}</pre>
             <button onClick={(e) => {

@@ -1,4 +1,5 @@
 import {
+    Pagination,
     PaginationGap,
     PaginationList,
     PaginationNext,
@@ -6,7 +7,7 @@ import {
     PaginationPrevious
 } from "@/Components/catalyst/pagination.jsx";
 
-const Pagination = ({current_page, total_pages, href}) => {
+const Paginate = ({current_page, total_pages, href}) => {
     return (
         <>
             <Pagination>
@@ -51,4 +52,4 @@ const Pagination = ({current_page, total_pages, href}) => {
         </>
     )
 }
-export default  Pagination
+export default Paginate
